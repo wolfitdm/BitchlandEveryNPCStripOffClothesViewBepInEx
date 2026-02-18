@@ -62,7 +62,7 @@ namespace BitchlandEveryNPCStripOffClothesView
                   "Whether or not you want max relationship if you have sex (default true also yes, you want it, and false = no)");
 
 
-            configUltimativeSexMonsterBitch = Config.Bind(pluginKey,
+            configEveryNPCstripsNudeIfYouLookAtThem = Config.Bind(pluginKey,
                                               "EveryNPCstripsNudeIfYouLookAtThem",
                                               true,
                                               "Whether or not you want that every npc strips nude if you look at them (default true also yes, you want it, and false = no)");
