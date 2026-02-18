@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.Mono;
 using Den.Tools;
 using HarmonyLib;
+using SemanticVersioning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -412,6 +413,8 @@ namespace BitchlandEveryNPCStripOffClothesView
             {
                 PersonGenerated.CreatePersonRelationship();
                 PersonGenerated.Favor = 100000000;
+                PersonGenerated.SexMultiplier = 1.5f;
+                PersonGenerated.SexMAddictionultiplier = 2.0f;
             }
         }
 
@@ -527,6 +530,9 @@ namespace BitchlandEveryNPCStripOffClothesView
             person.NippleTraining = level;
             person.ClitTraining = level;
             person.BodyTraining = level;
+
+            person.SexMultiplier = 1.5f;
+            person.SexMAddictionultiplier = 2.0f;
         }
 
 
