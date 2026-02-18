@@ -18,6 +18,7 @@ namespace BitchlandEveryNPCStripOffClothesView
 
         private static ConfigEntry<bool> configEnableMe;
         private static ConfigEntry<bool> configUltimativeSexMonsterBitch;
+        private static ConfigEntry<KeyCode> configKeyCodeStripModeStartSex;
 
         public BitchlandEveryNPCStripOffClothesView()
         {
@@ -34,9 +35,11 @@ namespace BitchlandEveryNPCStripOffClothesView
         }
 
         private static string pluginKey = "General.Toggles";
+        private static string pluginKeyControlsStripMode = "StripMode.KeyControls";
 
-		public static bool enableMe = false;
+        public static bool enableMe = false;
         public static bool ultimativeSexMonsterBitch = false;
+        public static KeyCode stripModeSexKey = 0;
 
         private void Awake()
         {
@@ -54,11 +57,16 @@ namespace BitchlandEveryNPCStripOffClothesView
                                                           true,
                                                           "Whether or not you want make every npc to the ultimative sex monster bitch (default true also yes, you want it, and false = no)");
 
+            configKeyCodeStripModeStartSex = Config.Bind(pluginKeyControlsStripMode,
+                     "KeyCodeStripModeStartSex",
+                      KeyCode.F6,
+                     "Key to start sex, default F6");
 
             enableMe = configEnableMe.Value;
             ultimativeSexMonsterBitch = configUltimativeSexMonsterBitch.Value;
-			
-			PatchAllHarmonyMethods();
+            stripModeSexKey = configKeyCodeStripModeStartSex.Value;
+
+            PatchAllHarmonyMethods();
 
             Logger.LogInfo($"Plugin BitchlandEveryNPCStripOffClothesView BepInEx is loaded!");
         }
@@ -498,31 +506,86 @@ namespace BitchlandEveryNPCStripOffClothesView
                 RaycastHit hitInfo;
                 if (Physics.Raycast(_this.transform.position, _this.transform.TransformDirection(Vector3.forward), out hitInfo, _this.RayDistance, (int)_this.PromptLayers))
                 {
-                    int_Person obj = hitInfo.transform.GetComponent<int_Person>();
-                    int_Person obj2 = hitInfo.transform.root.GetComponent<int_Person>();
+                    Interactible[] obj__ = hitInfo.transform.GetComponents<Interactible>();
+                    Interactible[] obj2__ = hitInfo.transform.root.GetComponents<Interactible>();
 
-                    if (obj != null)
+                    if (obj__ != null)
                     {
-                        Person person = obj.ThisPerson;
-
-                        if (person != null)
+                        for (int i = 0; i < obj__.Length; i++)
                         {
-                            StripPerson(person.gameObject);
-                            if (ultimativeSexMonsterBitch)
-                                setPersonaltyToNympho(person.gameObject);
+                            Interactible obj_ = obj__[i];
+
+                            if (obj_ == null)
+                            {
+                                continue;
+                            }
+
+                            if (!(obj_ is int_Person))
+                            {
+                                continue;
+                            }
+
+                            int_Person obj = (int_Person)obj_;
+
+                            if (obj != null)
+                            {
+                                Person person = obj.ThisPerson;
+
+                                if (person != null)
+                                {
+                                    StripPerson(person.gameObject);
+                                    
+                                    if (ultimativeSexMonsterBitch)
+                                    {
+                                        setPersonaltyToNympho(person.gameObject);
+                                    }
+
+                                    if (Input.GetKeyUp(stripModeSexKey))
+                                    {
+
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    if (obj2  != null)
+                    if (obj2__ != null)
                     {
-                       Person person2 = obj2.ThisPerson;
+                        for (int i = 0; i < obj2__.Length; i++)
+                        {
+                            Interactible obj2_ = obj2__[i];
 
-                       if (person2 != null)
-                       {
-                            StripPerson(person2.gameObject);
-                            if (ultimativeSexMonsterBitch)
-                                setPersonaltyToNympho(person2.gameObject);
-                       }
+                            if (obj2_ == null)
+                            {
+                                continue;
+                            }
+
+                            if (!(obj2_ is int_Person))
+                            {
+                                continue;
+                            }
+
+                            int_Person obj2 = (int_Person)obj2_;
+
+                            if (obj2 != null)
+                            {
+                                Person person = obj2.ThisPerson;
+
+                                if (person != null)
+                                {
+                                    StripPerson(person.gameObject);
+                                    if (ultimativeSexMonsterBitch)
+                                    {
+                                        setPersonaltyToNympho(person.gameObject);
+                                    }
+
+                                    if (Input.GetKeyUp(stripModeSexKey))
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
